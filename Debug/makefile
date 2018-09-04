@@ -11,7 +11,7 @@ RM := rm -rf
 -include startup/subdir.mk
 -include Src/touch_driver/subdir.mk
 -include Src/subdir.mk
--include Drivers/STM32F3xx_HAL_Driver/Src/subdir.mk
+-include Drivers/STM32F0xx_HAL_Driver/Src/subdir.mk
 -include subdir.mk
 -include objects.mk
 
@@ -29,13 +29,13 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: Touch.elf
+all: SmartLock.elf
 
 # Tool invocations
-Touch.elf: $(OBJS) $(USER_OBJS) ../STM32F303K8Tx_FLASH.ld
+SmartLock.elf: $(OBJS) $(USER_OBJS) ../STM32F051R8Tx_FLASH.ld
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU GCC Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -specs=nosys.specs -specs=nano.specs -T"../STM32F303K8Tx_FLASH.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "Touch.elf" @"objects.list" $(USER_OBJS) $(LIBS) -lm
+	arm-none-eabi-gcc -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -T"../STM32F051R8Tx_FLASH.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "SmartLock.elf" @"objects.list" $(USER_OBJS) $(LIBS) -lm
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build
@@ -46,9 +46,9 @@ clean:
 	-@echo ' '
 
 post-build:
-	-@echo 'Generating binary and Printing size information:'
-	arm-none-eabi-objcopy -O binary "Touch.elf" "Touch.bin"
-	arm-none-eabi-size "Touch.elf"
+	-@echo 'Generating hex and Printing size information:'
+	arm-none-eabi-objcopy -O ihex "SmartLock.elf" "SmartLock.hex"
+	arm-none-eabi-size "SmartLock.elf"
 	-@echo ' '
 
 .PHONY: all clean dependents

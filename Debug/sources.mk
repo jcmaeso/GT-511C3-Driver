@@ -15,7 +15,7 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-Drivers/STM32F3xx_HAL_Driver/Src \
+Drivers/STM32F0xx_HAL_Driver/Src \
 Src \
 Src/touch_driver \
 startup \
